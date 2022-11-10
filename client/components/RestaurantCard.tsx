@@ -18,7 +18,7 @@ const RestaurantCard = (props: IProps) => {
   return (
     <TouchableOpacity className="bg-white rounded-b mr-5">
       <Image source={{ uri: props.imgUrl }} className="h-36 w-64 rounded" />
-      <View className="p-2 ">
+      <View className="p-2">
         <Text className="font-bold text-lg pt-2">{props.title}</Text>
         <View className="flex-row items-center space-x-1">
           <StarIcon color="green" opacity={0.5} size={22} />
