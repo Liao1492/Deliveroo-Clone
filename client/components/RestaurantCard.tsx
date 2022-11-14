@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { StarIcon, MapIcon } from "react-native-heroicons/outline";
+import { urlFor } from "../sanity";
+
 interface IProps {
   id: number;
   imgUrl: string;
@@ -9,7 +11,7 @@ interface IProps {
   genre: string;
   address: string;
   short_description: string;
-  dishesh: string[];
+  dishes: string[];
   long: number;
   lat: number;
 }
@@ -17,7 +19,10 @@ interface IProps {
 const RestaurantCard = (props: IProps) => {
   return (
     <TouchableOpacity className="bg-white rounded-b mr-5">
-      <Image source={{ uri: props.imgUrl }} className="h-36 w-64 rounded" />
+      <Image
+        source={{ uri: urlFor(props.imgUrl).url() }}
+        className="h-36 w-64 rounded"
+      />
       <View className="p-2">
         <Text className="font-bold text-lg pt-2">{props.title}</Text>
         <View className="flex-row items-center space-x-1">

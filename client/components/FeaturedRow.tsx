@@ -1,7 +1,8 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
+import sanityClient from "../sanity";
 interface IProps {
   title: string;
   description: string;
@@ -9,6 +10,25 @@ interface IProps {
 }
 
 const FeaturedRow = ({ title, description, id }: IProps) => {
+  const [restaurants, setRestaurants] = useState([]);
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+    *[_type == 'featured' && _id ==$id]{
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[]->,
+        type->{
+          name
+        }
+      },
+    }[0]`,
+        { id }
+      )
+      .then((data) => setRestaurants(data?.restaurants));
+  }, [id]);
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -24,7 +44,25 @@ const FeaturedRow = ({ title, description, id }: IProps) => {
         className="pt-4 "
       >
         {/* Restaurant Cards */}
-        <RestaurantCard
+        {restaurants.map((rest) => {
+          return (
+            <RestaurantCard
+              key={rest._id}
+              id={rest._id}
+              imgUrl={rest.image}
+              title={rest._name}
+              rating={rest.rating}
+              genre={rest.type?.name}
+              address={rest.address}
+              short_description={rest.short_description}
+              dishes={rest.dishes}
+              long={rest.long}
+              lat={rest.lat}
+            />
+          );
+        })}
+
+        {/* <RestaurantCard
           id={1}
           imgUrl="https://links.papareact.com/gn7"
           title="Yo Sushi"
@@ -32,7 +70,7 @@ const FeaturedRow = ({ title, description, id }: IProps) => {
           genre="Japanese"
           address="123 Main Street"
           short_description="This is a desc"
-          dishesh={[]}
+          dishes={[]}
           long={20}
           lat={0}
         />
@@ -44,22 +82,10 @@ const FeaturedRow = ({ title, description, id }: IProps) => {
           genre="Japanese"
           address="123 Main Street"
           short_description="This is a desc"
-          dishesh={[]}
+          dishes={[]}
           long={20}
           lat={0}
-        />
-        <RestaurantCard
-          id={1}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Yo Sushi"
-          rating={4.5}
-          genre="Japanese"
-          address="123 Main Street"
-          short_description="This is a desc"
-          dishesh={[]}
-          long={20}
-          lat={0}
-        />
+        /> */}
       </ScrollView>
     </View>
   );
