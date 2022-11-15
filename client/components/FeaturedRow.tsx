@@ -45,14 +45,15 @@ const FeaturedRow = ({ title, description, id }: IProps) => {
       >
         {/* Restaurant Cards */}
         {restaurants.map((rest) => {
+          console.log(rest);
           return (
             <RestaurantCard
               key={rest._id}
               id={rest._id}
               imgUrl={rest.image}
-              title={rest._name}
+              title={rest.name}
               rating={rest.rating}
-              genre={rest.type?.name}
+              genre={title}
               address={rest.address}
               short_description={rest.short_description}
               dishes={rest.dishes}

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { StarIcon, MapIcon } from "react-native-heroicons/outline";
 import { urlFor } from "../sanity";
+import { useNavigation } from "@react-navigation/native";
 
 interface IProps {
   id: number;
@@ -17,8 +18,26 @@ interface IProps {
 }
 
 const RestaurantCard = (props: IProps) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity className="bg-white rounded-b mr-5">
+    <TouchableOpacity
+      onPress={() => {
+        //@ts-ignore
+        navigation.navigate("Restaurant", {
+          id: props.id,
+          imgUrl: props.imgUrl,
+          title: props.title,
+          rating: props.rating,
+          genre: props.genre,
+          address: props.address,
+          short_description: props.short_description,
+          dishes: props.dishes,
+          long: props.long,
+          lat: props.lat,
+        });
+      }}
+      className="bg-white rounded-b mr-5"
+    >
       <Image
         source={{ uri: urlFor(props.imgUrl).url() }}
         className="h-36 w-64 rounded"
