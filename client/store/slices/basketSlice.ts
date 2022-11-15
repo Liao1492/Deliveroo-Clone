@@ -38,6 +38,11 @@ export const getBasketStateId = (
   id: string
 ) => state.basket.items.filter((el) => el.id === id);
 
+export const getBasketStateTotal = (state: { basket: BasketInterface }) =>
+  state.basket.items.reduce((total, item) => {
+    return (total += item.price);
+  }, 0);
+
 export const { addToBasket, removeFromBasket } = basketSlice.actions;
 
 export default basketSlice.reducer;

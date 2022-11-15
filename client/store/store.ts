@@ -4,9 +4,11 @@ import {
   useDispatch as useDispatchBase,
   useSelector as useSelectorBase,
 } from "react-redux";
+import restaurantSlice from "./slices/restaurantSlice";
 export const store = configureStore({
   reducer: {
     basket: basketSlice,
+    restaurant: restaurantSlice,
   },
 });
 

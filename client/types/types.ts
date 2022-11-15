@@ -12,6 +12,7 @@ type RootStackParamList = {
     long: number;
     lat: number;
   };
+  Basket: undefined;
 };
 
 interface IDish {
